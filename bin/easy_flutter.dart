@@ -1,5 +1,8 @@
-import 'package:easy_flutter/easy_flutter.dart' as easy_flutter;
+import 'package:easy_flutter/core/easy_cli.dart';
 
 void main(List<String> arguments) {
-  print('Hello world: ${easy_flutter.calculate()}!');
+  var time = Stopwatch();
+  time.start();
+
+  EasyCLI(arguments).run();
 }
