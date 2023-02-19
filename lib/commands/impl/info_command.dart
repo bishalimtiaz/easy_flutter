@@ -1,4 +1,6 @@
 import 'package:easy_flutter/commands/interface/command.dart';
+import 'package:easy_flutter/common/constants/command_name.dart';
+import 'package:easy_flutter/common/constants/easy_strings.dart';
 import 'package:easy_flutter/common/utils/logger/log_utils.dart';
 
 class InfoCommand extends Command {
@@ -6,11 +8,10 @@ class InfoCommand extends Command {
   List<String> get alias => const <String>[];
 
   @override
-  // TODO: implement hint
-  String? get hint => throw UnimplementedError();
+  String? get hint => EasyStrings.commandInfoHint;
 
   @override
-  String get name => 'info';
+  String get name => CommandName.info;
 
   @override
   List<Command> get subCommands => const <Command>[];
@@ -22,5 +23,5 @@ class InfoCommand extends Command {
   }
 
   @override
-  String get description => "This is Info Command";
+  String get description => EasyStrings.commandInfoDescription;
 }

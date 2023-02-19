@@ -1,6 +1,7 @@
 import 'package:easy_flutter/commands/command_list.dart';
-import 'package:easy_flutter/commands/interface/command.dart';
-import 'package:collection/collection.dart';
+import 'package:easy_flutter/commands/impl/easy_command_factory.dart';
+import 'package:easy_flutter/common/constants/easy_strings.dart';
+import 'package:easy_flutter/common/utils/logger/log_utils.dart';
 
 class EasyCLI {
   final List<String> _arguments;
@@ -8,27 +9,14 @@ class EasyCLI {
   EasyCLI(this._arguments);
 
   void run() async {
-    if (_arguments.isEmpty) {
-      printUsage();
-      return;
-    }
-
-    final Command? command = commands.firstWhereOrNull(
-      (command) => command.name == _arguments.first,
-    );
-
-    if (command == null) {
-      printUsage();
-      return;
-    }
-
+    final command = EasyCommandFactory().parseCommand(_arguments);
     await command.execute();
   }
 
   void printUsage() {
-    print('Usage: dart cli.dart <command> [arguments]');
+    LogService.info(EasyStrings.usage,false,false);
     print('');
-    print('Available commands:');
+    LogService.info(EasyStrings.usage,false,false);
 
     for (final command in commands) {
       print('${command.name.padRight(12)} ${command.description}');
