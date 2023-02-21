@@ -2,6 +2,9 @@ import 'package:easy_flutter/commands/interface/command.dart';
 import 'package:easy_flutter/common/constants/command_name.dart';
 import 'package:easy_flutter/common/constants/easy_strings.dart';
 import 'package:easy_flutter/common/utils/logger/log_utils.dart';
+import 'package:easy_flutter/operations/set_arch_operation.dart';
+import 'package:easy_flutter/services/impl/directory_service_impl.dart';
+import 'package:easy_flutter/services/impl/file_service_impl.dart';
 
 class SetArchCommand extends Command {
   @override
@@ -13,9 +16,18 @@ class SetArchCommand extends Command {
 
   @override
   Future<void> execute() async {
-    LogService.info("set arch called", false, false);
-    //create directories in root folder
-    //create files in directories
+    SetArchOperation(
+      fileService: FileServiceImpl(),
+      directoryService: DirectoryServiceImpl(),
+    ).execute().then(
+      (value) {
+        LogService.info("Architecture setup successful!", false, false);
+      },
+    ).catchError(
+      (error) {
+        throw error;
+      },
+    );
   }
 
   @override
