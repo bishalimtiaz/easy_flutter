@@ -1,6 +1,8 @@
 import 'package:easy_flutter/operations/operation.dart';
 import 'package:easy_flutter/services/interface/directory_service.dart';
 import 'package:easy_flutter/services/interface/file_service.dart';
+import 'package:easy_flutter/template/template_main.dart';
+import 'package:easy_flutter/template/template_my_app.dart';
 
 ///
 /// This Architecture Follows Clean Architecture and MVVM
@@ -22,7 +24,7 @@ import 'package:easy_flutter/services/interface/file_service.dart';
 ///
 
 class SetArchOperation implements Operation {
-  final List<String> _directoryPaths = [
+  final List<String> _directoryPaths = <String>[
     'lib/app/',
     'lib/app/core/',
     'lib/app/data/',
@@ -36,9 +38,15 @@ class SetArchOperation implements Operation {
     'lib/app/presentation/',
   ];
 
-  final List<String> _filePaths = [
+  final List<String> _filePaths = <String>[
     'lib/app/app.dart',
+    'lib/main.dart',
   ];
+
+  final Map<String, String> _contents = <String, String>{
+    'lib/main.dart': TemplateMain().format,
+    'lib/app/app.dart': TemplateMyApp().format,
+  };
 
   final FileService _fileService;
   final DirectoryService _directoryService;
@@ -54,6 +62,7 @@ class SetArchOperation implements Operation {
     try {
       await _createDirectories();
       await _createFiles();
+      await _writeContents();
     } catch (e) {
       print('Error creating directory structure: $e');
       rethrow;
@@ -79,5 +88,14 @@ class SetArchOperation implements Operation {
     await Future.wait(futures).catchError((error) {
       throw 'Error creating files: $error';
     });
+  }
+
+  Future<void> _writeContents() async {
+    try {
+      await _fileService.writeContentsToMultipleFile(_contents);
+    } catch (e) {
+      print('Error writing contents to files: $e');
+      rethrow;
+    }
   }
 }

@@ -26,6 +26,23 @@ class FileServiceImpl implements FileService {
   }
 
   @override
+  Future<void> writeContentsToMultipleFile(Map<String, String> contentsByPath) async {
+    final futures = contentsByPath.entries.map((entry) async {
+      final file = File(entry.key);
+      if (file.existsSync()) {
+        await file.writeAsString(entry.value).catchError((error) {
+          throw 'Error writing content to file at path: ${entry.key}, error: $error';
+        });
+      } else {
+        throw 'File not found at path: ${entry.key}';
+      }
+    });
+    await Future.wait(futures).catchError((error) {
+      throw 'Error writing contents to files: $error';
+    });
+  }
+
+  @override
   Future<void> createFiles(List<String> paths) async {
     final futures = paths.map((path) => createFile(path).catchError((error) {
           throw 'Error creating file at path: $path, error: $error';
