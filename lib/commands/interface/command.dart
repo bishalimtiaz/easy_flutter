@@ -6,11 +6,11 @@ abstract class Command {
 
   String get description;
 
-  List<String> get alias;
+  List<String> get alias => const <String>[];
 
   String? get hint;
 
-  List<Command> get subCommands;
+  List<Command> get subCommands => const <Command>[];
 
   Command withArgs(List<String> args) => _findSubCommand(args);
 

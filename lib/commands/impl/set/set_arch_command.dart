@@ -35,7 +35,4 @@ class SetArchCommand extends Command {
 
   @override
   String get name => CommandName.arch;
-
-  @override
-  List<Command> get subCommands => const <Command>[];
 }

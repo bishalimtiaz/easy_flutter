@@ -6,15 +6,12 @@ import 'package:easy_flutter/common/utils/logger/log_utils.dart';
 
 class SetCommand extends Command {
   @override
-  List<String> get alias => const <String>[];
-
-  @override
   String get description => EasyStrings.commandSetDescription;
 
   @override
-  Future<void> execute() async{
+  Future<void> execute() async {
     LogService.error(description);
-    LogService.info(hint ?? "",false,false);
+    LogService.info(hint ?? "", false, false);
   }
 
   @override

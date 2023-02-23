@@ -4,4 +4,5 @@ abstract class CommandName {
   static const String info = 'info';
   static const String arch = 'arch';
   static const String set = 'set';
+  static const String route = 'route';
 }
